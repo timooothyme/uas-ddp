@@ -1,12 +1,14 @@
+// Import modul-modul yang diperlukan
 const fs = require('fs')
 const prompt = require('prompt-sync')()
-const { appendFile } = require('fs').promises
 const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
 const argv = yargs(hideBin(process.argv)).argv
 
+// Menampilkan pesan 'Selamat datang ...'
 console.log('Selamat datang di Program Perpustakaan!')
 
+// Mendefinisikan class Book untuk merepresentasikan buku
 class Book {
   constructor(title, author, release, stock) {
     this.title = title
@@ -16,6 +18,7 @@ class Book {
   }
 }
 
+// Mendefinisikan class Borrowing untuk merepresentasikan pinjaman
 class Borrowing {
   constructor(title, borrowerName, startDate, endDate) {
     this.title = title
@@ -25,6 +28,7 @@ class Borrowing {
   }
 }
 
+// Fungsi untuk membaca data buku dari database
 const readBooksFromDatabase = () => {
   try {
     const data = fs.readFileSync('books-database.json', 'utf-8')
@@ -34,6 +38,7 @@ const readBooksFromDatabase = () => {
   }
 }
 
+// Fungsi untuk membaca data pinjaman dari database
 const readBorrowingsFromDatabase = () => {
   try {
     const data = fs.readFileSync('borrowings-database.json', 'utf-8')
@@ -43,6 +48,7 @@ const readBorrowingsFromDatabase = () => {
   }
 }
 
+// Fungsi untuk menampilkan data semua buku
 const displayAllBooks = () => {
   const existingBooks = readBooksFromDatabase()
 
@@ -56,6 +62,7 @@ const displayAllBooks = () => {
   }
 }
 
+// Fungsi untuk menampilkan data semua pinjaman
 const displayAllBorrowings = () => {
   const borrowings = readBorrowingsFromDatabase()
   
@@ -69,6 +76,7 @@ const displayAllBorrowings = () => {
   }
 }
 
+// Fungsi untuk menambahkan buku baru
 const addBook = (argTitle, argAuthor, argRelease, argStock) => {
   const existingBooks = readBooksFromDatabase()
 
@@ -95,6 +103,7 @@ const addBook = (argTitle, argAuthor, argRelease, argStock) => {
   console.log('Buku baru berhasil ditambahkan!')
 }
 
+// Fungsi untuk mencari buku berdasarkan judul
 const findBook = (argKeyword) => {
   if (argv.judul) {
     keyword = argKeyword
@@ -116,6 +125,7 @@ const findBook = (argKeyword) => {
   }
 }
 
+// Fungsi untuk menghapus buku berdasarkan judul
 const deleteBook = (argKeyword) => {
   if (argv.judul) {
     keyword = argKeyword
@@ -142,6 +152,7 @@ const deleteBook = (argKeyword) => {
   }
 }
 
+// Fungsi untuk menambahkan pinjaman baru
 const addBorrowing = (argKeyword, argBorrowerName, argEndDate) => {
   let keyword, borrowerName
   if (argv.judul && argv.peminjam) {
@@ -180,6 +191,7 @@ const addBorrowing = (argKeyword, argBorrowerName, argEndDate) => {
   }
 }
 
+// Fungsi untuk mencari pinjaman berdasarkan judul
 const findBorrowing = (argKeyword) => {
   if (argv.judul) {
     keyword = argKeyword
@@ -201,6 +213,7 @@ const findBorrowing = (argKeyword) => {
   }
 }
 
+// Fungsi untuk menghapus pinjaman berdasarkan judul
 const deleteBorrowing = () => {
   displayAllBorrowings()
 
@@ -223,6 +236,7 @@ const deleteBorrowing = () => {
   }
 }
 
+// Fungsi untuk memperbaharui stok buku
 const updateBookStock = (title, stockChange) => {
   const existingBooks = readBooksFromDatabase()
   const bookIndex = existingBooks.findIndex(book => book.title.toLowerCase() === title.toLowerCase())
@@ -235,6 +249,7 @@ const updateBookStock = (title, stockChange) => {
   }
 }
 
+// Kondisi untuk mengecek argumen yang diberikan
 if (!process.argv[2]) {
   let menu
   do {
